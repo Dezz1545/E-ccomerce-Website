@@ -1,3 +1,5 @@
+from django.core.mail import send_mail
+from myproject import settings
 from django.shortcuts import render,redirect,get_object_or_404
 from .models import Statut
 from .models import Brand
@@ -14,6 +16,7 @@ from . import views
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate,login
+
 
 
 
@@ -55,14 +58,40 @@ def register(request):
     if request.method == "POST":
         #Traiter le formulaire
         username = request.POST.get("username")
-        Email = request.POST.get("username")
+        email = request.POST.get("email")
         password = request.POST.get("password")
         password2 = request.POST.get("password2")
-        mon_utilisateur = User.objects.create_user(username, Email, password)
-        mon_utilisateur.save()
-        messages.success(request, 'Votre compte a été crée avec succès')
-        return redirect('login.html')
 
+        if User.objects.filter(username=username):
+            messages.error(request, "Ce nom d'utilisateur est déja attribuer a un compte.")
+            return redirect('register.html')
+
+        if User.objects.filter(email=email):
+            messages.error(request, "Cet Email est déja attribuer a un compte.")
+            return redirect('register.html') 
+
+        if not username.isalnum():
+            messages.error(request, "Votre nom doit contenir que des caractère alphanumeric.")
+            return redirect('register.html')  
+
+        if len(password) < 8:
+            messages.error(request, "Le mot de passe doit contenir au moins 8 caractères.")
+            return redirect('register.html')
+
+        if password != password2:
+            messages.error(request, "les deux mot de passe ne sont pas identique.")
+            return redirect('register.html')           
+
+        mon_utilisateur = User.objects.create_user(username, email, password)
+        mon_utilisateur.save()
+        messages.success(request, "Votre compte a été crée avec succès")
+        #Envoie Email de bienvenue
+        subject = "Bienvenue sur Fashi"
+        message = "Bienvenu "+ mon_utilisateur.username + "\ Nous somme heureux de vous comptez parmis nos utilisateur"
+        from_email =  settings.EMAIL_HOST_USER
+        to_list = [mon_utilisateur.email]
+        send_email(subject, message, from_email, to_list, fail_silently=False)
+        return redirect('login.html')
 
     return render(request,"register.html")      
 
@@ -77,10 +106,12 @@ def logIn(request):
         if user is not None:
             login(request, user)
             username= user.username
-            return render(request,"index.html" ,{'username':username})
+            return render(request,"index.html" )
         else:
             messages.error(request, 'Mauvaise Authentification')
             return redirect('login.html')
+
+
 
     return render(request,"login.html", {'products': products})          
 
@@ -91,6 +122,9 @@ def logOut(request):
     messages.success(request, 'Vous avez été déconnecter avec succès')
 
     return render(request,"index.html", {'products': products})
+
+
+    
 
 def main(request):
     datas = {}
@@ -153,4 +187,4 @@ def delete_comment(request, comment_id):
     else:
         # Rediriger vers une page d'erreur ou u
         
-        return redirect('shop_detail', id=article.id)    
+        return redirect('shop_detail', id=article.id)

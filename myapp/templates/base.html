@@ -48,13 +48,12 @@
                     </div>
                 </div>
                 <div class="ht-right">
+                    {% if user.is_authenticad %}
                     {% for message in  messages %}
 
                     <strong> {{message}} <strong>
                 
                     {% endfor %}
-
-                    {% if user.is_authenticad %}
                     <a class="login-panel"><i class="fa fa-user"></i>Logout</a>
                     <a href="{% url 'logout.html' %}" class="login-panel"><i class="fa fa-user"></i>Logout</a>
                     {% else %}
