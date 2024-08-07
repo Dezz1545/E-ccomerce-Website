@@ -15,20 +15,30 @@ Including another URLconf
 """
 from django.urls import path
 from .import views
+from django.urls import path, include
+from .views import (
+    myprojectListApiView,
+)
+from django.views.decorators.csrf import csrf_exempt
+from graphene_django.views import GraphQLView
+
+
+
 
 urlpatterns = [
     path("",views.index,name="index.html"),
     path("blog.html/",views.blog,name="blog.html"),
+    path("blog_details.html/<int:pk>",views.blog_details,name="blog_details.html"),
     path("check-out.html/",views.checkout,name="check-out.html"),
     path("contact/",views.contact,name="contact.html"),
     path("faq.html/",views.faq,name="faq.html"),
     path("login.html/",views.logIn,name="login.html"),
     path("register.html/",views.register,name="register.html"),
+    path("activate.html/<uidb64>/<token>",views.activate,name="activate"),
     path("logOut.html/",views.logOut,name="logOut.html"),
     path("main.html/",views.main,name="main.html"),
-    path("product.html/",views.product,name="product.html"),
+    path("product.html/<int:pk>",views.product,name="product.html"),
     path("shop.html/",views.shop,name="shop.html"),
-    path('comments/<int:comment_id>/delete/', views.delete_comment, name='delete_comment'),
-    path('create_comment/<int:id>/', views.create_comment, name='create_comment'),
     path("shopping-cart.html/",views.shoppingcart,name="shopping-cart.html"),
+    path('api/', myprojectListApiView.as_view()),
 ]

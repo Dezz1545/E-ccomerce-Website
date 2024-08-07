@@ -8,9 +8,11 @@ from .models import Product
 from .models import Post
 from .models import Comment
 
-from .models import Cart
-from .models import CartItem
+
 from .models import Contact
+
+from .models import Category
+from .models import Ingredient
 
 
 
@@ -23,11 +25,12 @@ admin.site.register(Color)
 admin.site.register(Tag)
 admin.site.register(Categorie)
 admin.site.register(Product)
-admin.site.register(Cart)
-admin.site.register(CartItem)
 admin.site.register(Contact)
 admin.site.register(Post)
 admin.site.register(Comment)
+admin.site.register(Category)
+admin.site.register(Ingredient)
+
 
 
 

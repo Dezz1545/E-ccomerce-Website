@@ -17,9 +17,18 @@ from django.contrib import admin
 from django.urls import path, include 
 from django.conf import settings
 from django.conf.urls.static import static
+from myapp import urls as myapp_urls
+from django.views.decorators.csrf import csrf_exempt
+
+from graphene_django.views import GraphQLView
+from myapp.schema import schema
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('myapp.urls'))
+    path('',include('myapp.urls')),
+    path('api-auth/', include('rest_framework.urls')),
+    path("graphql", csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema)))
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

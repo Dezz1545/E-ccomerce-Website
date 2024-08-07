@@ -40,22 +40,27 @@
                 <div class="ht-left">
                     <div class="mail-service">
                         <i class=" fa fa-envelope"></i>
-                        hello.colorlib@gmail.com
+                        Email: nguessanlandry216@gmail.com
                     </div>
                     <div class="phone-service">
                         <i class=" fa fa-phone"></i>
-                        +65 11.188.888
+                        Phone: +2250797991732
                     </div>
                 </div>
                 <div class="ht-right">
-                    {% if user.is_authenticad %}
+                    {% if user.is_authenticated %}
                     {% for message in  messages %}
 
                     <strong> {{message}} <strong>
                 
                     {% endfor %}
-                    <a class="login-panel"><i class="fa fa-user"></i>Logout</a>
-                    <a href="{% url 'logout.html' %}" class="login-panel"><i class="fa fa-user"></i>Logout</a>
+                    <style>
+                        .login-panel {
+                          margin-right: 20px;
+                        }
+                    </style>
+                    <a class="login-panel"><i class="fa fa-user"></i>{{user.username}}</a>
+                    <a href="{% url 'logOut.html' %}" class="login-panel"><i class="fa fa-user"></i>Logout</a>
                     {% else %}
                     <style>
                         .login-panel {
@@ -106,13 +111,13 @@
                             <li class="heart-icon">
                                 <a href="#">
                                     <i class="icon_heart_alt"></i>
-                                    <span>1</span>
+                                    <span>0</span>
                                 </a>
                             </li>
                             <li class="cart-icon">
                                 <a href="#">
                                     <i class="icon_bag_alt"></i>
-                                    <span>3</span>
+                                    <span>0</span>
                                 </a>
                                 <div class="cart-hover">
                                     <div class="select-items">
@@ -147,7 +152,7 @@
                                     </div>
                                     <div class="select-total">
                                         <span>total:</span>
-                                        <h5>$120.00</h5>
+                                        <h5>$00.00</h5>
                                     </div>
                                     <div class="select-button">
                                         <a href="{% url 'shopping-cart.html' %}" class="primary-btn view-card">VIEW CARD</a>
@@ -183,19 +188,10 @@
                     <ul>
                         <li class="active"><a href="{% url 'index.html' %}">Home</a></li>
                         <li><a href="{% url 'shop.html' %}">Shop</a></li>
-                        <li><a href="#">Collection</a>
-                            <ul class="dropdown">
-                                <li><a href="#">Men's</a></li>
-                                <li><a href="#">Women's</a></li>
-                                <li><a href="#">Kid's</a></li>
-                            </ul>
-                        </li>
                         <li><a href="{% url 'blog.html' %}">Blog</a></li>
                         <li><a href="{% url 'contact.html' %}">Contact</a></li>
                         <li><a href="#">Pages</a>
                             <ul class="dropdown">
-                                <li><a href="{% url 'shopping-cart.html' %}">Shopping Cart</a></li>
-                                <li><a href="{% url 'check-out.html' %}">Checkout</a></li>
                                 <li><a href="{% url 'faq.html' %}">About</a></li>
                             </ul>
                         </li>
@@ -255,9 +251,9 @@
                             <a href="#"><img src="{% static 'img/footer-logo.png' %}" alt=""></a>
                         </div>
                         <ul>
-                            <li>Address: 60-49 Road 11378 New York</li>
-                            <li>Phone: +65 11.188.888</li>
-                            <li>Email: hello.colorlib@gmail.com</li>
+                            <li>Address: Bassam</li>
+                            <li>Phone: +225 0740937504</li>
+                            <li>Email: daak6115@gmail.com</li>
                         </ul>
                         <div class="footer-social">
                             <a href="#"><i class="fa fa-facebook"></i></a>
